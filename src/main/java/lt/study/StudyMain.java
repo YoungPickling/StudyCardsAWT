@@ -1,5 +1,7 @@
 package lt.study;
 
+import lt.study.listeners.ExitListener;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -14,34 +16,28 @@ public class StudyMain {
 
     public StudyMain() {
         mainFrame = new Frame("StudyCards");
-//        mainFrame.setTitle("StudyCards");
         centerWindow(mainFrame);
 
-//        mainFrame.setLayout(new GridLayout(3, 1));
+        mainFrame.setLayout(new GridLayout(2, 1));
 
 //        Button b = new Button("Click Me!!");
 //        b.setBounds(30,100,80,30);
 //        mainFrame.add(b);
 
+        List sideListComponent = new List();
+
         mainFrame.setSize(this.windowSizeX,this.windowSizeY);
 
-//        // no layout manager
-//        mainFrame.setLayout(null);
-//        mainFrame.addWindowListener(
-//            new WindowAdapter() {
-//                 public void windowClosing(WindowEvent we) {
-//                     mainFrame.dispose();
-//                 }
-//            }
-//        );
-        mainFrame.setLayout(new GridLayout(3, 1));
+        mainFrame.setLayout(new GridLayout(1, 3));
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
                 System.exit(0);
             }
         });
+
         headerLabel = new Label();
         headerLabel.setAlignment(Label.CENTER);
+
         statusLabel = new Label();
         statusLabel.setAlignment(Label.CENTER);
         statusLabel.setSize(350,100);
@@ -50,6 +46,7 @@ public class StudyMain {
         controlPanel.setLayout(new FlowLayout());
 
         mainFrame.setMenuBar(this.getMenuBar());
+        mainFrame.add(sideListComponent);
         mainFrame.add(headerLabel);
         mainFrame.add(controlPanel);
         mainFrame.add(statusLabel);
@@ -66,33 +63,35 @@ public class StudyMain {
 
     private MenuBar getMenuBar() {
         final MenuBar menuBar = new MenuBar();
+        ExitListener exitListener = new ExitListener();
 
         //create menus
         Menu fileMenu = new Menu("File");
         Menu editMenu = new Menu("Edit");
         final Menu aboutMenu = new Menu("About");
+        aboutMenu.setActionCommand("About");
 
         //create menu items
         MenuItem newMenuItem =
                 new MenuItem("New",new MenuShortcut(KeyEvent.VK_N));
         newMenuItem.setActionCommand("New");
 
-        MenuItem openMenuItem = new MenuItem("Open");
+        MenuItem openMenuItem = new MenuItem("Open", new MenuShortcut(KeyEvent.VK_O));
         openMenuItem.setActionCommand("Open");
 
-        MenuItem saveMenuItem = new MenuItem("Save");
+        MenuItem saveMenuItem = new MenuItem("Save", new MenuShortcut(KeyEvent.VK_S));
         saveMenuItem.setActionCommand("Save");
 
         MenuItem exitMenuItem = new MenuItem("Exit");
         exitMenuItem.setActionCommand("Exit");
 
-        MenuItem cutMenuItem = new MenuItem("Cut");
+        MenuItem cutMenuItem = new MenuItem("Cut", new MenuShortcut(KeyEvent.VK_X));
         cutMenuItem.setActionCommand("Cut");
 
-        MenuItem copyMenuItem = new MenuItem("Copy");
+        MenuItem copyMenuItem = new MenuItem("Copy", new MenuShortcut(KeyEvent.VK_C));
         copyMenuItem.setActionCommand("Copy");
 
-        MenuItem pasteMenuItem = new MenuItem("Paste");
+        MenuItem pasteMenuItem = new MenuItem("Paste", new MenuShortcut(KeyEvent.VK_V));
         pasteMenuItem.setActionCommand("Paste");
 
         MenuItemListener menuItemListener = new MenuItemListener();
@@ -100,10 +99,11 @@ public class StudyMain {
         newMenuItem.addActionListener(menuItemListener);
         openMenuItem.addActionListener(menuItemListener);
         saveMenuItem.addActionListener(menuItemListener);
-        exitMenuItem.addActionListener(menuItemListener);
+        exitMenuItem.addActionListener(exitListener);
         cutMenuItem.addActionListener(menuItemListener);
         copyMenuItem.addActionListener(menuItemListener);
         pasteMenuItem.addActionListener(menuItemListener);
+        aboutMenu.addActionListener(menuItemListener);
 
         final CheckboxMenuItem showWindowMenu =
                 new CheckboxMenuItem("Show About", true);
@@ -142,11 +142,11 @@ public class StudyMain {
         return menuBar;
     }
 
-    class MenuItemListener implements ActionListener {
+    public class MenuItemListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if(e.getActionCommand().equals("Exit")) {
-                System.exit(0);
-            }
+//            if(e.getActionCommand().equals("Exit")) {
+//                System.exit(0);
+//            }
 
             statusLabel.setText(e.getActionCommand()
                     + " MenuItem clicked.");
