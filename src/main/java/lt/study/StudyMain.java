@@ -18,7 +18,11 @@ public class StudyMain {
         mainFrame = new Frame("StudyCards");
         centerWindow(mainFrame);
 
-        mainFrame.setLayout(new GridLayout(2, 1));
+//        mainFrame.setLayout(new GridLayout(2, 1));
+
+//        Panel panel = new Panel();
+//        panel.setBounds(40,80,200,400);
+//        panel.setBackground(Color.gray);
 
 //        Button b = new Button("Click Me!!");
 //        b.setBounds(30,100,80,30);
@@ -28,6 +32,7 @@ public class StudyMain {
 
         mainFrame.setSize(this.windowSizeX,this.windowSizeY);
 
+//        mainFrame.setLayout(new GridLayout(1, 3));
         mainFrame.setLayout(new GridLayout(1, 3));
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
@@ -50,6 +55,8 @@ public class StudyMain {
         mainFrame.add(headerLabel);
         mainFrame.add(controlPanel);
         mainFrame.add(statusLabel);
+
+//        mainFrame.add(panel);
         mainFrame.setVisible(true); // now frame will be visible, by default it is not visible
     }
 
